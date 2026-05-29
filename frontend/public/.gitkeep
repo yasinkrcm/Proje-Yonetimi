@@ -1,0 +1,2 @@
+# This file exists only to ensure the public/ directory is tracked by git
+# and included in the Docker build context.
