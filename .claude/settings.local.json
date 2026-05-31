@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker exec projeynetimi-frontend-1 *)",
+      "WebSearch",
+      "Bash(docker-compose build *)",
+      "Bash(docker-compose up *)",
+      "Bash(curl *)",
+      "Bash(dir \"D:\\\\Projects\\\\Proje Yönetimi\\\\frontend\\\\src\\\\app\")"
+    ]
+  }
+}

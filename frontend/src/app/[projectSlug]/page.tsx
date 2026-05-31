@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProjectAction } from "@/app/actions";
+import { getProjectAction } from "@/app/data";
 import ProjectBoard from "@/components/ProjectBoard";
 
 interface Props {

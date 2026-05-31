@@ -21,7 +21,7 @@ export async function apiFetch<T>(
   const cookieStore = await cookies();
   const authToken = cookieStore.get("auth_token")?.value;
 
-  console.log(`[apiFetch] Path: ${path}, Has Token: ${!!authToken}`);
+  console.log(`[apiFetch] Path: ${path}, BaseURL: ${getBaseUrl()}, Has Token: ${!!authToken}`);
 
   const res = await fetch(`${getBaseUrl()}${path}`, {
     ...init,
@@ -34,6 +34,8 @@ export async function apiFetch<T>(
       ...init?.headers,
     },
   });
+
+  console.log(`[apiFetch] Path: ${path}, Status: ${res.status}`);
 
   const json = (await res.json()) as BackendResponse<T>;
   console.log(`[apiFetch] Path: ${path}, Response Success: ${json.success}`);

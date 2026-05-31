@@ -1,7 +1,7 @@
-import { getProjectIssuesAction } from "@/app/actions";
+import { getProjectIssuesAction } from "@/app/data";
 import Link from "next/link";
-import IssueList from "./IssueList";
 import CreateIssueModal from "./CreateIssueModal";
+import ProjectBoardClient from "./ProjectBoardClient";
 
 interface Props {
   projectId: string;
@@ -15,23 +15,16 @@ export default async function ProjectBoard({ projectId, projectKey, projectName 
   return (
     <div className="flex flex-col min-h-screen bg-black">
       {/* Top bar */}
-      <header className="
-        flex items-center justify-between px-5 py-3
-        border-b border-white/[0.06] sticky top-0 bg-black/95 backdrop-blur-sm z-10
-      ">
+      <header className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] sticky top-0 bg-black/95 backdrop-blur-sm z-10">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono text-[#8A8F98] uppercase tracking-widest">
-            {projectKey}
-          </span>
+          <span className="text-xs font-mono text-[#8A8F98] uppercase tracking-widest">{projectKey}</span>
           <span className="text-neutral-700">/</span>
           <h1 className="text-sm font-medium text-[#F2F2F2]">{projectName}</h1>
         </div>
+        
         <div className="flex items-center gap-4 text-xs text-neutral-500 font-mono">
           <span className="flex items-center gap-1.5">
-            <kbd className="
-              px-1.5 py-0.5 border border-white/10 rounded-sm
-              bg-[#111111] text-[#F2F2F2] font-mono text-[9px] leading-none
-            ">
+            <kbd className="px-1.5 py-0.5 border border-white/10 rounded-sm bg-[#111111] text-[#F2F2F2] font-mono text-[9px] leading-none">
               C
             </kbd>{" "}
             new issue
@@ -43,19 +36,9 @@ export default async function ProjectBoard({ projectId, projectKey, projectName 
           )}
           <Link
             href="/"
-            className="
-              flex items-center gap-1.5 px-2.5 py-1.5 border border-white/10 rounded-sm
-              bg-white/[0.02] hover:bg-white/[0.06] text-[#F2F2F2] text-xs font-mono
-              transition-colors duration-75
-            "
+            className="flex items-center gap-1.5 px-2.5 py-1.5 border border-white/10 rounded-sm bg-white/[0.02] hover:bg-white/[0.06] text-[#F2F2F2] text-xs font-mono transition-colors duration-75"
           >
-            <svg
-              className="w-3 h-3 text-neutral-400"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
+            <svg className="w-3 h-3 text-neutral-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M2.75 8H13.25M2.75 8L6.75 4M2.75 8L6.75 12" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Switch Project
@@ -65,19 +48,17 @@ export default async function ProjectBoard({ projectId, projectKey, projectName 
 
       {/* Content */}
       {result.success ? (
-        <IssueList issues={result.data} projectKey={projectKey} />
+        <ProjectBoardClient issues={result.data} projectKey={projectKey} />
       ) : (
         <div className="flex flex-1 items-center justify-center bg-black">
           <div className="border border-red-900/50 bg-red-950/20 px-6 py-4 max-w-sm">
-            <p className="text-xs font-mono text-red-400 uppercase tracking-wider mb-1">
-              Error
-            </p>
+            <p className="text-xs font-mono text-red-400 uppercase tracking-wider mb-1">Error</p>
             <p className="text-sm text-red-300">{result.error}</p>
           </div>
         </div>
       )}
 
-      {/* Modal — renders as portal, always mounted to listen for 'C' globally */}
+      {/* Modal */}
       <CreateIssueModal projectId={projectId} />
     </div>
   );

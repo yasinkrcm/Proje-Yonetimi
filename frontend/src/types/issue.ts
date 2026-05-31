@@ -12,6 +12,7 @@ export type Issue = {
   id: string;
   projectId: string;
   cycleId: string | null;
+  parentIssueId: string | null;
   issueNumber: number;
   title: string;
   description: string | null;
@@ -20,7 +21,23 @@ export type Issue = {
   reporterId: string;
   assigneeId: string | null;
   dueAt: string | null;
+  startAt: string | null;
+  estimatedMinutes: number | null;
   completedAt: string | null;
   createdAt: string;
   updatedAt: string;
+};
+
+export type IssueWithDetails = Issue & {
+  labels: { id: string; name: string; color: string }[];
+  commentsCount: number;
+  checklistsCount: number;
+  checklistItemsTotal: number;
+  checklistItemsDone: number;
+  attachmentsCount: number;
+  assigneeName: string | null;
+  assigneeAvatarUrl: string | null;
+  projectKey: string;
+  projectName: string;
+  subtasksCount: number;
 };

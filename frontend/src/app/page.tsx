@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getProjectsAction } from "@/app/actions";
+import { getProjectsAction } from "@/app/data";
 import ProjectCommandPalette from "@/components/ProjectCommandPalette";
 
 export const metadata: Metadata = { title: "Select Project" };

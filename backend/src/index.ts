@@ -3,6 +3,17 @@ import { cors } from "@elysiajs/cors";
 import { authController } from "@/controllers/authController";
 import { issueController } from "@/controllers/issueController";
 import { projectController } from "@/controllers/projectController";
+import { commentController } from "@/controllers/commentController";
+import { labelController } from "@/controllers/labelController";
+import { checklistController } from "@/controllers/checklistController";
+import { timeTrackingController } from "@/controllers/timeTrackingController";
+import { attachmentController } from "@/controllers/attachmentController";
+import { activityController } from "@/controllers/activityController";
+import { notificationController } from "@/controllers/notificationController";
+import { dashboardController } from "@/controllers/dashboardController";
+import { memberController } from "@/controllers/memberController";
+import { searchController } from "@/controllers/searchController";
+
 import { AppError } from "@/types/api";
 import type { ApiError } from "@/types/api";
 
@@ -69,6 +80,16 @@ const app = new Elysia()
   .use(authController)
   .use(projectController)
   .use(issueController)
+  .use(commentController)
+  .use(labelController)
+  .use(checklistController)
+  .use(timeTrackingController)
+  .use(attachmentController)
+  .use(activityController)
+  .use(notificationController)
+  .use(dashboardController)
+  .use(memberController)
+  .use(searchController)
 
   // ─── Health check ──────────────────────────────────────────────────────────
   .get("/health", () => ({ success: true, data: { status: "ok" } }))
