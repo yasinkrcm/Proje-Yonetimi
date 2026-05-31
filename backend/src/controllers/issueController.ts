@@ -10,12 +10,12 @@ import {
   checklists,
   attachments,
   workspaceMembers,
+  activityLogs,
 } from "@db/schema";
 import { requireAuth } from "@/middleware/requireAuth";
 import { NotFoundError } from "@/types/api";
 import type { ApiSuccess } from "@/types/api";
 import type { Issue } from "@db/schema";
-import { logActivity } from "@/lib/activity";
 import { createNotification } from "@/lib/notifications";
 
 // ─────────────────────────────────────────────
@@ -94,8 +94,8 @@ export const issueController = new Elysia({ tags: ["Issues"] })
           })
           .returning();
 
-        // Log activity
-        await logActivity({
+        // Insert activity log inside the transaction so it's atomic with the issue
+        await tx.insert(activityLogs).values({
           workspaceId: updatedProject.workspaceId,
           projectId: body.projectId,
           issueId: created!.id,
@@ -188,35 +188,33 @@ export const issueController = new Elysia({ tags: ["Issues"] })
       if (body.cycleId !== undefined) updates.cycleId = body.cycleId || null;
       if (body.parentIssueId !== undefined) updates.parentIssueId = body.parentIssueId || null;
 
-      const [updated] = await db
-        .update(issues)
-        .set(updates)
-        .where(eq(issues.id, params.id))
-        .returning();
+      // Use transaction to ensure atomic update + activity log
+      const [updated] = await db.transaction(async (tx) => {
+        const [proj] = await tx.select({ workspaceId: projects.workspaceId }).from(projects).where(eq(projects.id, existing.projectId));
 
-      // Get project's workspace for activity log
-      const [project] = await db.select({ workspaceId: projects.workspaceId }).from(projects).where(eq(projects.id, existing.projectId));
+        if (proj) {
+          await tx.insert(activityLogs).values({
+            workspaceId: proj.workspaceId,
+            projectId: existing.projectId,
+            issueId: params.id,
+            actorId: user.sub,
+            action: "issue.updated",
+            metadata: { fields: Object.keys(updates) },
+          });
+        }
 
-      if (project) {
-        await logActivity({
-          workspaceId: project.workspaceId,
-          projectId: existing.projectId,
-          issueId: params.id,
-          actorId: user.sub,
-          action: "issue.updated",
-          metadata: { fields: Object.keys(updates) },
-        });
-      }
+        return tx.update(issues).set(updates).where(eq(issues.id, params.id)).returning();
+      });
 
-      // Notify new assignee
+      // Notify new assignee (outside transaction - non-critical)
       if (body.assigneeId && body.assigneeId !== existing.assigneeId && body.assigneeId !== user.sub) {
-        await createNotification({
+        createNotification({
           userId: body.assigneeId,
           type: "assignment",
           title: "Issue atandı",
           message: `"${updated!.title}" size atandı`,
           link: `/issues/${params.id}`,
-        });
+        }).catch(console.error);
       }
 
       return { success: true, data: updated! };
@@ -246,18 +244,20 @@ export const issueController = new Elysia({ tags: ["Issues"] })
       const [issue] = await db.select().from(issues).where(eq(issues.id, params.id));
       if (!issue) throw new NotFoundError("Issue", params.id);
 
-      await db.delete(issues).where(eq(issues.id, params.id));
-
-      const [project] = await db.select({ workspaceId: projects.workspaceId }).from(projects).where(eq(projects.id, issue.projectId));
-      if (project) {
-        await logActivity({
-          workspaceId: project.workspaceId,
-          projectId: issue.projectId,
-          actorId: user.sub,
-          action: "issue.deleted",
-          metadata: { title: issue.title },
-        });
-      }
+      // Insert activity log BEFORE deleting the issue (FK constraint requires issue to exist)
+      await db.transaction(async (tx) => {
+        const [project] = await tx.select({ workspaceId: projects.workspaceId }).from(projects).where(eq(projects.id, issue.projectId));
+        if (project) {
+          await tx.insert(activityLogs).values({
+            workspaceId: project.workspaceId,
+            projectId: issue.projectId,
+            actorId: user.sub,
+            action: "issue.deleted",
+            metadata: { title: issue.title },
+          });
+        }
+        await tx.delete(issues).where(eq(issues.id, params.id));
+      });
 
       return { success: true, data: null };
     },
