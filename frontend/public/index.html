@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sooliva · Proje Yönetim Planı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #F2F0EA;
+            --surface: #fff;
+            --border: rgba(0, 0, 0, .09);
+            --border-s: rgba(0, 0, 0, .15);
+            --navy: #0F172A;
+            --accent: #4F46E5;
+            --accent-l: #EEF2FF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --faint: #94A3B8;
+            --r: 10px;
+            --rs: 6px;
+            --sh: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .05);
+            --shm: 0 4px 16px rgba(0, 0, 0, .12);
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        /* HEADER */
+        .hdr {
+            background: var(--navy);
+            color: #fff;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .hdr-mark {
+            width: 36px;
+            height: 36px;
+            background: #4F46E5;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+            color: #fff;
+            flex-shrink: 0;
+            letter-spacing: -1px
+        }
+
+        .hdr-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff
+        }
+
+        .hdr-sub {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 2px
+        }
+
+        .hdr-metrics {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap
+        }
+
+        .metric-val {
+            font-size: 21px;
+            font-weight: 700;
+            color: #fff;
+            font-family: var(--mono);
+            line-height: 1
+        }
+
+        .metric-lbl {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        /* NAV */
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            display: flex;
+            gap: 0;
+            overflow-x: auto
+        }
+
+        .tab-btn {
+            padding: 13px 17px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background: none;
+            font-family: inherit;
+            white-space: nowrap;
+            transition: all .15s
+        }
+
+        .tab-btn:hover {
+            color: var(--text)
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent)
+        }
+
+        /* MAIN */
+        .main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 32px
+        }
+
+        /* PANEL */
+        .phdr {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .ptitle {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy)
+        }
+
+        .psub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .pactions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0
+        }
+
+        /* BTN */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 15px;
+            border-radius: var(--rs);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid;
+            font-family: inherit;
+            transition: all .15s;
+            white-space: nowrap
+        }
+
+        .btn-p {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent)
+        }
+
+        .btn-p:hover {
+            background: #4338CA;
+            border-color: #4338CA
+        }
+
+        .btn-g {
+            background: transparent;
+            color: var(--muted);
+            border-color: var(--border-s)
+        }
+
+        .btn-g:hover {
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        .btn-d {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+            padding: 5px 10px;
+            font-size: 12px
+        }
+
+        .btn-d:hover {
+            background: #FEE2E2
+        }
+
+        /* TEAM GRID */
+        .tgrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px
+        }
+
+        .mcard {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 14px;
+            position: relative;
+            transition: box-shadow .15s
+        }
+
+        .mcard:hover {
+            box-shadow: var(--shm)
+        }
+
+        .mcard:hover .del {
+            opacity: 1
+        }
+
+        .mav {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .mname {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy)
+        }
+
+        .mrole {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 1px
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-family: var(--mono)
+        }
+
+        /* TABLE */
+        .tw {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            border-bottom: 1px solid var(--border);
+            background: #FAFAFA
+        }
+
+        tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none
+        }
+
+        tbody tr:hover {
+            background: #FAFAF8
+        }
+
+        tbody tr:hover .del {
+            opacity: 1
+        }
+
+        tfoot td {
+            padding: 10px 14px;
+            background: #F8FAFF;
+            font-weight: 700;
+            font-size: 13px;
+            border-top: 1px solid var(--border)
+        }
+
+        /* DEL BTN */
+        .del {
+            opacity: 0;
+            transition: opacity .15s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #EF4444;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 17px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center
+        }
+
+        .del:hover {
+            background: #FEE2E2
+        }
+
+        /* FILTER BAR */
+        .fbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            flex-wrap: wrap
+        }
+
+        .fbtn {
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            transition: all .15s;
+            font-family: inherit
+        }
+
+        .fbtn.on {
+            background: var(--accent-l);
+            color: var(--accent);
+            border-color: #C7D2FE
+        }
+
+        .fbtn:hover:not(.on) {
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        /* GANTT */
+        .gbox {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 18px 16px
+        }
+
+        .gruler {
+            display: flex;
+            margin-left: 200px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px
+        }
+
+        .gw {
+            font-size: 10px;
+            color: var(--faint);
+            font-family: var(--mono);
+            border-left: 1px dashed #E2E8F0;
+            padding-left: 3px;
+            flex: 2
+        }
+
+        .grow {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px
+        }
+
+        .glabel {
+            width: 196px;
+            font-size: 11px;
+            color: var(--muted);
+            text-align: right;
+            padding-right: 10px;
+            flex-shrink: 0;
+            line-height: 1.35
+        }
+
+        .gtrack {
+            flex: 1;
+            height: 27px;
+            background: var(--bg);
+            border-radius: 4px;
+            position: relative;
+            border: 1px solid var(--border);
+            overflow: hidden
+        }
+
+        .gbar {
+            position: absolute;
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: opacity .15s
+        }
+
+        .gbar:hover {
+            opacity: .85
+        }
+
+        .gbarlabel {
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        .gsec {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            margin: 12px 0 6px 200px;
+            border-top: 1px solid var(--border);
+            padding-top: 10px
+        }
+
+        /* BUDGET */
+        .bgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .bsum {
+            background: var(--navy);
+            color: #fff;
+            border-radius: var(--r);
+            padding: 18px;
+            margin-top: 16px
+        }
+
+        .brow {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 13px
+        }
+
+        .brow.btotal {
+            border-top: 1px solid rgba(255, 255, 255, .15);
+            margin-top: 8px;
+            padding-top: 11px;
+            font-size: 16px;
+            font-weight: 700
+        }
+
+        /* TECH */
+        .techgrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 22px
+        }
+
+        .techcard {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 12px
+        }
+
+        .techcat {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 5px
+        }
+
+        .techitems {
+            font-size: 12px;
+            color: var(--text);
+            line-height: 1.65
+        }
+
+        /* MODAL */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px)
+        }
+
+        .overlay.open {
+            display: flex
+        }
+
+        .modal {
+            background: var(--surface);
+            border-radius: 14px;
+            padding: 26px;
+            width: 500px;
+            max-width: 95vw;
+            box-shadow: var(--shm);
+            animation: su .2s ease
+        }
+
+        @keyframes su {
+            from {
+                transform: translateY(18px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 20px
+        }
+
+        .fg {
+            margin-bottom: 14px
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 5px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border-s);
+            border-radius: var(--rs);
+            font-family: inherit;
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, .12)
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px
+        }
+
+        .mactions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 22px
+        }
+
+        .mrow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        /* TOAST */
+        .twrap {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none
+        }
+
+        .toast {
+            background: var(--navy);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shm);
+            animation: ti .25s ease;
+            border-left: 3px solid var(--accent)
+        }
+
+        @keyframes ti {
+            from {
+                transform: translateX(24px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1
+            }
+        }
+
+        /* UTIL */
+        .fx {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, .14);
+            border-radius: 3px
+        }
+
+        @media(max-width:900px) {
+            .bgrid {
+                grid-template-columns: 1fr
+            }
+
+            .hdr {
+                padding: 16px 20px
+            }
+
+            .main {
+                padding: 16px 20px
+            }
+
+            .nav {
+                padding: 0 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="hdr">
+          <div class="fx" style="gap:12px">
+                <div class="hdr-mark">S</div>
+                <div>
+                      <div class="hdr-title">Sooliva · Proje Yönetim Planı</div>
+                      <div class="hdr-sub">AI B2B Satış SaaS Platformu · Agile / Scrum · 2025–2026</div>
+                    </div>
+              </div>
+          <div class="hdr-metrics">
+                <div>
+                <div class="metric-val" id="m-team">15</div>
+                <div class="metric-lbl">Ekip</div>
+            </div>
+                <div>
+                <div class="metric-val" id="m-tasks">39</div>
+                <div class="metric-lbl">Görev</div>
+            </div>
+                <div>
+                <div class="metric-val" id="m-phases">9</div>
+                <div class="metric-lbl">Faz</div>
+            </div>
+                <div>
+                <div class="metric-val" id="m-budget">–</div>
+                <div class="metric-lbl">Bütçe</div>
+            </div>
+                <div>
+                <div class="metric-val">26 hf</div>
+                <div class="metric-lbl">Süre</div>
+            </div>
+              </div>
+    </header>
+
+    <nav class="nav">
+          <button class="tab-btn active" onclick="sw('team',this)">👥 Ekip</button>
+          <button class="tab-btn" onclick="sw('tasks',this)">📋 Görevler</button>
+          <button class="tab-btn" onclick="sw('gantt',this)">📅 Gantt</button>
+          <button class="tab-btn" onclick="sw('budget',this)">💰 Bütçe</button>
+          <button class="tab-btn" onclick="sw('resources',this)">🔧 Kaynaklar</button>
+    </nav>
+
+    <main class="main">
+
+          <!-- EKIP -->
+          <div id="tab-team">
+                <div class="phdr">
+                      <div>
+                    <div class="ptitle">Ekip Üyeleri</div>
+                    <div class="psub">Üye ekle veya kartların üzerindeki × ile kaldır</div>
+                </div>
+                      <div class="pactions">
+                            <button class="btn btn-g" onclick="resetData()">↺ Varsayılana Sıfırla</button>
+                            <button class="btn btn-p" onclick="openModal('team')">+ Ekip Üyesi Ekle</button>
+                          </div>
+                    </div>
+                <div class="tgrid" id="team-grid"></div>
+              </div>
+
+          <!-- GÖREVLER -->
+          <div id="tab-tasks" class="hidden">
+                <div class="phdr">
+                      <div>
+                    <div class="ptitle">Görev Dağılımı</div>
+                    <div class="psub">Sprint görevleri — departmana göre filtrele</div>
+                </div>
+                      <button class="btn btn-p" onclick="openModal('task')">+ Görev Ekle</button>
+                    </div>
+                <div class="fbar" id="task-fbar"></div>
+                <div class="tw">
+                      <table>
+                            <thead>
+                        <tr>
+                            <th>Sorumlu</th>
+                            <th>Departman</th>
+                            <th>Görev Açıklaması</th>
+                            <th>Sprint</th>
+                            <th style="width:44px"></th>
+                        </tr>
+                    </thead>
+                            <tbody id="tasks-body"></tbody>
+                          </table>
+                    </div>
+              </div>
+
+          <!-- GANTT -->
+          <div id="tab-gantt" class="hidden">
+                <div class="phdr">
+                      <div>
+                    <div class="ptitle">Gantt Şeması</div>
+                    <div class="psub">Proje takvimi — faz/sprint bazlı + kişi zaman çizelgesi</div>
+                </div>
+                      <button class="btn btn-p" onclick="openModal('phase')">+ Faz / Sprint Ekle</button>
+                    </div>
+                <div class="gbox" id="gantt-box"></div>
+              </div>
+
+          <!-- BÜTÇE -->
+          <div id="tab-budget" class="hidden">
+                <div class="phdr">
+                      <div>
+                    <div class="ptitle">Bütçe Kırılımı</div>
+                    <div class="psub">Personel + altyapı maliyetleri, %15 risk payı dahil</div>
+                </div>
+                      <button class="btn btn-p" onclick="openModal('infra')">+ Altyapı Kalemi Ekle</button>
+                    </div>
+                <div class="bgrid" id="budget-box"></div>
+              </div>
+
+          <!-- KAYNAKLAR -->
+          <div id="tab-resources" class="hidden">
+                <div class="phdr">
+                      <div>
+                    <div class="ptitle">Kaynak Yönetimi</div>
+                    <div class="psub">Teknoloji yığını, efor dağılımı ve Scrum yapısı</div>
+                </div>
+                    </div>
+                <div id="resources-box"></div>
+              </div>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="overlay" id="overlay" onclick="oclick(event)">
+          <div class="modal">
+                <div class="modal-title" id="modal-title"></div>
+                <div id="modal-body"></div>
+                <div class="mactions">
+                      <button class="btn btn-g" onclick="closeModal()">İptal</button>
+                      <button class="btn btn-p" onclick="submitModal()">✓ Kaydet</button>
+                    </div>
+              </div>
+    </div>
+
+    <div class="twrap" id="toasts"></div>
+
+    <script>
+        // ===== DEPT CONFIG =====
+        const D = {
+            management: { l: 'Yönetim', bg: '#EEF2FF', tc: '#3730A3', bc: '#818CF8' },
+            design: { l: 'Tasarım', bg: '#FDF2F8', tc: '#9D174D', bc: '#F9A8D4' },
+            frontend: { l: 'Frontend', bg: '#EFF6FF', tc: '#1E40AF', bc: '#93C5FD' },
+            backend: { l: 'Backend', bg: '#ECFDF5', tc: '#065F46', bc: '#6EE7B7' },
+            ai: { l: 'AI/ML', bg: '#FFFBEB', tc: '#92400E', bc: '#FCD34D' },
+            devops: { l: 'DevOps', bg: '#F8FAFC', tc: '#334155', bc: '#CBD5E1' },
+            qa: { l: 'QA', bg: '#FFF1F2', tc: '#9F1239', bc: '#FCA5A5' },
+        };
+
+        const PC = [
+            { bg: '#EEF2FF', tc: '#3730A3', bc: '#6366F1' }, { bg: '#EFF6FF', tc: '#1E40AF', bc: '#3B82F6' },
+            { bg: '#ECFDF5', tc: '#065F46', bc: '#10B981' }, { bg: '#FFFBEB', tc: '#92400E', bc: '#F59E0B' },
+            { bg: '#FFF1F2', tc: '#9F1239', bc: '#F43F5E' }, { bg: '#FDF2F8', tc: '#9D174D', bc: '#EC4899' },
+            { bg: '#F0FDF4', tc: '#14532D', bc: '#22C55E' }, { bg: '#F8FAFC', tc: '#334155', bc: '#64748B' },
+            { bg: '#FFF7ED', tc: '#9A3412', bc: '#F97316' },
+        ];
+
+        // ===== DEFAULT DATA =====
+        const DEF = {
+            dur: 6.5,
+            team: [
+                { id: 't1', name: 'Kerem Arslan', role: 'Proje Yöneticisi', dept: 'management', salary: 80000 },
+                { id: 't2', name: 'Selin Yıldırım', role: 'Ürün Sahibi / BA', dept: 'management', salary: 70000 },
+                { id: 't3', name: 'Dilan Aktaş', role: 'UI/UX Tasarımcı', dept: 'design', salary: 65000 },
+                { id: 't4', name: 'Mert Kaya', role: 'Frontend Lead', dept: 'frontend', salary: 90000 },
+                { id: 't5', name: 'Ayşe Demirci', role: 'Frontend Developer', dept: 'frontend', salary: 75000 },
+                { id: 't6', name: 'Burak Çelik', role: 'Frontend Developer', dept: 'frontend', salary: 75000 },
+                { id: 't7', name: 'Tarık Öztürk', role: 'Backend Lead', dept: 'backend', salary: 100000 },
+                { id: 't8', name: 'Zeynep Şahin', role: 'Backend Developer', dept: 'backend', salary: 85000 },
+                { id: 't9', name: 'Emre Güneş', role: 'Backend Developer', dept: 'backend', salary: 85000 },
+                { id: 't10', name: 'Hande Koç', role: 'Backend Developer', dept: 'backend', salary: 85000 },
+                { id: 't11', name: 'Furkan Aydın', role: 'AI/ML Mühendisi', dept: 'ai', salary: 110000 },
+                { id: 't12', name: 'Naz Yılmaz', role: 'AI/ML Mühendisi', dept: 'ai', salary: 110000 },
+                { id: 't13', name: 'Serkan Doğan', role: 'DevOps Mühendisi', dept: 'devops', salary: 95000 },
+                { id: 't14', name: 'Pınar Erdoğan', role: 'QA Lead', dept: 'qa', salary: 70000 },
+                { id: 't15', name: 'Caner Polat', role: 'QA Mühendisi', dept: 'qa', salary: 60000 },
+            ],
+            tasks: [
+                { id: 'k1', dept: 'frontend', assignee: 'Mert Kaya', desc: 'Next.js 14 + React 18 monorepo mimarisi ve component library temeli', sprint: 'S1' },
+                { id: 'k2', dept: 'frontend', assignee: 'Mert Kaya', desc: 'Kullanıcı dashboard: lead listesi, akıllı filtreler ve arama arayüzü', sprint: 'S3' },
+                { id: 'k3', dept: 'frontend', assignee: 'Mert Kaya', desc: 'Gerçek zamanlı bildirim sistemi (WebSocket / SSE entegrasyonu)', sprint: 'S4' },
+                { id: 'k4', dept: 'frontend', assignee: 'Ayşe Demirci', desc: 'Onboarding akışı ve ürün yükleme wizard UI (dosya, görsel, döküman)', sprint: 'S2' },
+                { id: 'k5', dept: 'frontend', assignee: 'Ayşe Demirci', desc: 'Lokalize e-posta şablonu önizleme ve drag-drop editörü', sprint: 'S3' },
+                { id: 'k6', dept: 'frontend', assignee: 'Ayşe Demirci', desc: 'Ödeme sayfası ve Stripe checkout UI entegrasyonu', sprint: 'S5' },
+                { id: 'k7', dept: 'frontend', assignee: 'Burak Çelik', desc: 'Analytics dashboard: açılma/tıklama/dönüşüm grafikleri (Recharts)', sprint: 'S4' },
+                { id: 'k8', dept: 'frontend', assignee: 'Burak Çelik', desc: 'Rakip analiz sayfası ve pazar karşılaştırma tabloları', sprint: 'S4' },
+                { id: 'k9', dept: 'frontend', assignee: 'Burak Çelik', desc: 'İl/sektör bazlı harita üzerinde lead keşif arayüzü (Mapbox GL)', sprint: 'S2' },
+                { id: 'k10', dept: 'backend', assignee: 'Tarık Öztürk', desc: 'Mikroservis mimarisi: API gateway, message queue, servis sınırları', sprint: 'F1' },
+                { id: 'k11', dept: 'backend', assignee: 'Tarık Öztürk', desc: 'JWT + OAuth2 kimlik doğrulama ve rol tabanlı erişim kontrolü (RBAC)', sprint: 'S1' },
+                { id: 'k12', dept: 'backend', assignee: 'Tarık Öztürk', desc: 'Lead skorlama motoru: kural tabanlı + AI hibrit puanlama sistemi', sprint: 'S2' },
+                { id: 'k13', dept: 'backend', assignee: 'Zeynep Şahin', desc: 'Lead keşif API: 50+ ülke veri sağlayıcı entegrasyonu ve normalizasyon', sprint: 'S2' },
+                { id: 'k14', dept: 'backend', assignee: 'Zeynep Şahin', desc: 'Abonelik ve fatura yönetimi (Stripe webhooks + iyzico)', sprint: 'S5' },
+                { id: 'k15', dept: 'backend', assignee: 'Zeynep Şahin', desc: 'KVKK/GDPR uyumlu veri saklama, anonimleştirme ve silme politikaları', sprint: 'S5' },
+                { id: 'k16', dept: 'backend', assignee: 'Emre Güneş', desc: 'E-posta gönderim servisi: SendGrid primary + AWS SES fallback mimarisi', sprint: 'S3' },
+                { id: 'k17', dept: 'backend', assignee: 'Emre Güneş', desc: 'Outbound email tracking: açılma/tıklama izleme (pixel + webhook)', sprint: 'S3' },
+                { id: 'k18', dept: 'backend', assignee: 'Emre Güneş', desc: 'Rate limiting ve kuyruk yönetimi (BullMQ + Redis)', sprint: 'S3' },
+                { id: 'k19', dept: 'backend', assignee: 'Hande Koç', desc: 'Rakip analiz servisi: web scraping pipeline + veri normalizasyon katmanı', sprint: 'S4' },
+                { id: 'k20', dept: 'backend', assignee: 'Hande Koç', desc: 'Reporting API: kullanım istatistikleri ve dashboard veri servisleri', sprint: 'S4' },
+                { id: 'k21', dept: 'backend', assignee: 'Hande Koç', desc: 'Webhook sistemi: CRM entegrasyonları için event pub/sub altyapısı', sprint: 'S5' },
+                { id: 'k22', dept: 'ai', assignee: 'Furkan Aydın', desc: 'Ürün analiz modeli: embedding + semantic search pipeline (LLM)', sprint: 'S2' },
+                { id: 'k23', dept: 'ai', assignee: 'Furkan Aydın', desc: 'Lokalize e-posta üretim motoru: GPT-4 prompt engineering + fine-tuning', sprint: 'S3' },
+                { id: 'k24', dept: 'ai', assignee: 'Furkan Aydın', desc: 'Otonom takip sistemi: müşteri yanıt sınıflandırma ve önceliklendirme', sprint: 'S4' },
+                { id: 'k25', dept: 'ai', assignee: 'Naz Yılmaz', desc: 'İdeal müşteri profili (ICP) çıkarım modeli: ML unsupervised clustering', sprint: 'S2' },
+                { id: 'k26', dept: 'ai', assignee: 'Naz Yılmaz', desc: 'Rakip konumlandırma NLP modeli: metin sınıflandırma ve özetleme', sprint: 'S4' },
+                { id: 'k27', dept: 'ai', assignee: 'Naz Yılmaz', desc: 'Model izleme, drift detection altyapısı ve A/B test çerçevesi', sprint: 'S5' },
+                { id: 'k28', dept: 'devops', assignee: 'Serkan Doğan', desc: 'AWS altyapısı: ECS, RDS PostgreSQL, ElastiCache, S3, CloudFront', sprint: 'S1' },
+                { id: 'k29', dept: 'devops', assignee: 'Serkan Doğan', desc: 'CI/CD pipeline (GitHub Actions): test, build, staging ve prod deploy', sprint: 'S1' },
+                { id: 'k30', dept: 'devops', assignee: 'Serkan Doğan', desc: 'Kubernetes cluster (EKS) ve HPA ile auto-scaling konfigürasyonu', sprint: 'S2' },
+                { id: 'k31', dept: 'devops', assignee: 'Serkan Doğan', desc: 'Monitoring: Datadog APM, ELK Stack ve alerting politikaları', sprint: 'S3' },
+                { id: 'k32', dept: 'devops', assignee: 'Serkan Doğan', desc: 'Güvenlik: WAF, DDoS koruması, sertifika yönetimi, secret rotation', sprint: 'S5' },
+                { id: 'k33', dept: 'qa', assignee: 'Pınar Erdoğan', desc: 'QA stratejisi, test planı ve tüm sprint kabul kriterleri tanımı', sprint: 'F1' },
+                { id: 'k34', dept: 'qa', assignee: 'Pınar Erdoğan', desc: 'API entegrasyon testleri (Postman + Newman): tüm endpointler', sprint: 'S3' },
+                { id: 'k35', dept: 'qa', assignee: 'Pınar Erdoğan', desc: 'Yük ve performans testi (k6): 10.000 eş zamanlı kullanıcı senaryosu', sprint: 'QA' },
+                { id: 'k36', dept: 'qa', assignee: 'Pınar Erdoğan', desc: 'User acceptance testing (UAT) ve beta kullanıcı koordinasyonu', sprint: 'Beta' },
+                { id: 'k37', dept: 'qa', assignee: 'Caner Polat', desc: 'E2E test otomasyonu (Playwright): kritik kullanıcı yolculukları', sprint: 'S3' },
+                { id: 'k38', dept: 'qa', assignee: 'Caner Polat', desc: 'Regresyon test suite yönetimi ve CI pipeline entegrasyonu', sprint: 'S4' },
+                { id: 'k39', dept: 'qa', assignee: 'Caner Polat', desc: 'Güvenlik ve penetrasyon testleri (OWASP Top 10 kontrol listesi)', sprint: 'QA' },
+            ],
+            phases: [
+                { id: 'p1', name: 'Faz 0 — Keşif & planlama', start: 1, end: 2, ci: 7 },
+                { id: 'p2', name: 'Faz 1 — Tasarım & mimari', start: 3, end: 5, ci: 0 },
+                { id: 'p3', name: 'Sprint 1 — Core altyapı & auth', start: 6, end: 8, ci: 1 },
+                { id: 'p4', name: 'Sprint 2 — AI engine & lead keşfi', start: 9, end: 12, ci: 2 },
+                { id: 'p5', name: 'Sprint 3 — Email & dashboard', start: 13, end: 16, ci: 6 },
+                { id: 'p6', name: 'Sprint 4 — Analytics & rakip', start: 17, end: 19, ci: 3 },
+                { id: 'p7', name: 'Sprint 5 — Ödeme entegrasyonu', start: 20, end: 21, ci: 8 },
+                { id: 'p8', name: 'Faz 7 — QA & test', start: 22, end: 24, ci: 4 },
+                { id: 'p9', name: 'Faz 8 — Beta & lansman', start: 25, end: 26, ci: 5 },
+            ],
+            infra: [
+                { id: 'i1', name: 'AWS (ECS, RDS, S3, CloudFront, EKS)', monthly: 15000 },
+                { id: 'i2', name: 'AI API — OpenAI GPT-4 + Anthropic Claude', monthly: 25000 },
+                { id: 'i3', name: 'E-posta servisi (SendGrid + AWS SES)', monthly: 10000 },
+                { id: 'i4', name: 'İzleme — Datadog APM + ELK Stack', monthly: 8000 },
+                { id: 'i5', name: 'CI/CD & güvenlik araçları', monthly: 5000 },
+                { id: 'i6', name: 'Proje yönetim araçları (Jira, Confluence)', monthly: 3000 },
+                { id: 'i7', name: 'Tasarım araçları (Figma, Maze)', monthly: 2000 },
+            ],
+        };
+
+        // ===== STATE =====
+        let data = load();
+        let filter = 'all';
+        let mtype = '';
+        let uid = Date.now();
+
+        function nid() { return 'u' + (++uid); }
+        function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+        function load() {
+            try { const s = localStorage.getItem('sooliva-pm'); return s ? JSON.parse(s) : clone(); } catch { return clone(); }
+        }
+        function clone() { return JSON.parse(JSON.stringify(DEF)); }
+        function save() { localStorage.setItem('sooliva-pm', JSON.stringify(data)); metrics(); }
+
+        function resetData() {
+            if (!confirm('Tüm değişiklikler silinecek, varsayılan verilere dönülecek. Devam edilsin mi?')) return;
+            data = clone(); localStorage.removeItem('sooliva-pm'); renderAll(); toast('Veriler sıfırlandı ✓');
+        }
+
+        // ===== TABS =====
+        function sw(tab, el) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            document.querySelectorAll('[id^="tab-"]').forEach(p => p.classList.add('hidden'));
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+        }
+
+        // ===== METRICS =====
+        function metrics() {
+            const dur = data.dur || 6.5;
+            const pt = data.team.reduce((a, m) => a + (m.salary * dur), 0);
+            const it = data.infra.reduce((a, i) => a + (i.monthly * dur), 0);
+            const g = Math.round((pt + it + 15000) * 1.15);
+            document.getElementById('m-team').textContent = data.team.length;
+            document.getElementById('m-tasks').textContent = data.tasks.length;
+            document.getElementById('m-phases').textContent = data.phases.length;
+            document.getElementById('m-budget').textContent = (g / 1000000).toFixed(1) + 'M ₺';
+        }
+
+        // ===== RENDER ALL =====
+        function renderAll() { rTeam(); rTasks(); rGantt(); rBudget(); rRes(); metrics(); }
+
+        // ===== TEAM =====
+        function rTeam() {
+            const g = document.getElementById('team-grid');
+            if (!data.team.length) { g.innerHTML = '<p style="padding:20px;color:var(--muted);font-size:13px">Henüz ekip üyesi yok. Ekle butonunu kullan.</p>'; return; }
+            g.innerHTML = data.team.map(m => {
+                const dep = D[m.dept] || D.management;
+                const ini = m.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                return `<div class="mcard">
+      <button class="del" style="position:absolute;top:8px;right:8px;opacity:0" onclick="rm('team','${m.id}')" title="Sil">×</button>
+      <div class="fx" style="margin-bottom:10px">
+        <div class="mav" style="background:${dep.bg};color:${dep.tc}">${ini}</div>
+        <div><div class="mname">${esc(m.name)}</div><div class="mrole">${esc(m.role)}</div></div>
+      </div>
+      <span class="badge" style="background:${dep.bg};color:${dep.tc}">${dep.l}</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:6px;font-family:var(--mono)">${Number(m.salary).toLocaleString('tr-TR')} ₺/ay</span>
+    </div>`;
+            }).join('');
+        }
+
+        // ===== TASKS =====
+        function rTasks() {
+            const depts = ['all', ...Object.keys(D)];
+            document.getElementById('task-fbar').innerHTML = depts.map(k =>
+                `<button class="fbtn${filter === k ? ' on' : ''}" onclick="setF('${k}')">${k === 'all' ? 'Tümü' : D[k].l}</button>`
+            ).join('');
+            const rows = filter === 'all' ? data.tasks : data.tasks.filter(t => t.dept === filter);
+            const tb = document.getElementById('tasks-body');
+            if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" style="padding:20px;color:var(--muted);font-size:13px">Bu departmanda görev bulunamadı.</td></tr>'; return; }
+            tb.innerHTML = rows.map(t => {
+                const dep = D[t.dept] || D.frontend;
+                return `<tr>
+      <td style="font-weight:600;color:var(--navy)">${esc(t.assignee)}</td>
+      <td><span class="badge" style="background:${dep.bg};color:${dep.tc}">${dep.l}</span></td>
+      <td>${esc(t.desc)}</td>
+      <td><span class="badge" style="background:#F0FDF4;color:#15803D">${esc(t.sprint)}</span></td>
+      <td><button class="del" style="opacity:1" onclick="rm('tasks','${t.id}')" title="Sil">×</button></td>
+    </tr>`;
+            }).join('');
+        }
+        function setF(f) { filter = f; rTasks(); }
+
+        // ===== GANTT =====
+        function rGantt() {
+            const TW = 26;
+            let h = '<div class="gruler">';
+            for (let i = 1; i <= TW; i += 2) h += `<div class="gw">W${i}</div>`;
+            h += '</div>';
+            h += '<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin:2px 0 8px 200px">Faz takvimi</div>';
+            data.phases.forEach(p => {
+                const c = PC[p.ci % PC.length];
+                const l = ((p.start - 1) / TW * 100).toFixed(2);
+                const w = ((p.end - p.start + 1) / TW * 100).toFixed(2);
+                h += `<div class="grow">
+      <div class="glabel">${esc(p.name)}</div>
+      <div class="gtrack">
+        <div class="gbar" style="left:${l}%;width:${w}%;background:${c.bg};border:1px solid ${c.bc}">
+          <span class="gbarlabel" style="color:${c.tc}">H${p.start}–H${p.end}</span>
+        </div>
+        <button class="del" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);opacity:0;z-index:2" onmouseenter="this.style.opacity=1" onclick="rm('phases','${p.id}')" title="Sil">×</button>
+      </div>
+    </div>`;
+            });
+            const PR = [
+                { l: 'Kerem Arslan (PM)', bars: [{ s: 1, e: 26, ci: 0, t: 'Proje yönetimi' }] },
+                { l: 'Selin Yıldırım (PO)', bars: [{ s: 1, e: 26, ci: 0, t: 'Ürün sahibi' }] },
+                { l: 'Dilan Aktaş (UX)', bars: [{ s: 3, e: 10, ci: 5, t: 'UI/UX tasarım' }] },
+                { l: 'Mert Kaya (FE Lead)', bars: [{ s: 6, e: 22, ci: 1, t: 'Frontend lead' }] },
+                { l: 'Ayşe & Burak (FE)', bars: [{ s: 7, e: 22, ci: 1, t: 'Frontend dev' }] },
+                { l: 'Tarık Öztürk (BE Lead)', bars: [{ s: 6, e: 22, ci: 2, t: 'Backend lead' }] },
+                { l: 'Zeynep, Emre, Hande', bars: [{ s: 9, e: 22, ci: 2, t: 'Backend dev' }] },
+                { l: 'Furkan & Naz (AI/ML)', bars: [{ s: 9, e: 22, ci: 3, t: 'AI/ML engine' }] },
+                { l: 'Serkan Doğan (DevOps)', bars: [{ s: 6, e: 26, ci: 7, t: 'DevOps & altyapı' }] },
+                { l: 'Pınar & Caner (QA)', bars: [{ s: 13, e: 26, ci: 4, t: 'QA & test' }] },
+            ];
+            h += '<div class="gsec">Kişi zaman çizelgesi</div>';
+            PR.forEach(pr => {
+                h += `<div class="grow"><div class="glabel" style="font-size:11px">${esc(pr.l)}</div><div class="gtrack">`;
+                pr.bars.forEach(b => {
+                    const c = PC[b.ci]; const l = ((b.s - 1) / TW * 100).toFixed(2); const w = ((b.e - b.s + 1) / TW * 100).toFixed(2);
+                    h += `<div class="gbar" style="left:${l}%;width:${w}%;background:${c.bg};border:1px solid ${c.bc}"><span class="gbarlabel" style="color:${c.tc};font-size:10px">${b.t}</span></div>`;
+                });
+                h += '</div></div>';
+            });
+            document.getElementById('gantt-box').innerHTML = h;
+            document.querySelectorAll('.gtrack').forEach(t => {
+                t.addEventListener('mouseenter', () => { const d = t.querySelector('.del'); if (d) d.style.opacity = '1'; });
+                t.addEventListener('mouseleave', () => { const d = t.querySelector('.del'); if (d) d.style.opacity = '0'; });
+            });
+        }
+
+        // ===== BUDGET =====
+        function rBudget() {
+            const dur = data.dur || 6.5;
+            const pt = data.team.reduce((a, m) => a + Math.round(m.salary * dur), 0);
+            const ir = data.infra.reduce((a, i) => a + Math.round(i.monthly * dur), 0);
+            const ot = 15000;
+            const it = ir + ot;
+            const sub = pt + it;
+            const con = Math.round(sub * .15);
+            const g = sub + con;
+            const bc = document.getElementById('budget-box');
+            bc.innerHTML = `
+  <div>
+    <div class="ptitle" style="margin-bottom:12px">Personel maliyetleri <span style="font-size:12px;color:var(--muted);font-weight:400">(${dur} ay)</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>İsim</th><th>Rol</th><th>Aylık ₺</th><th>Toplam ₺</th><th style="width:44px"></th></tr></thead>
+      <tbody>${data.team.map(m => `<tr>
+        <td style="font-weight:600">${esc(m.name)}</td>
+        <td style="color:var(--muted);font-size:12px">${esc(m.role)}</td>
+        <td style="font-family:var(--mono)">${Number(m.salary).toLocaleString('tr-TR')}</td>
+        <td style="font-family:var(--mono);font-weight:600">${Math.round(m.salary * dur).toLocaleString('tr-TR')}</td>
+        <td><button class="del" style="opacity:1" onclick="rm('team','${m.id}')" title="Sil">×</button></td>
+      </tr>`).join('')}</tbody>
+      <tfoot><tr><td colspan="3" style="color:var(--navy)">Personel toplamı</td><td style="font-family:var(--mono)">${pt.toLocaleString('tr-TR')}</td><td></td></tr></tfoot>
+    </table></div>
+  </div>
+  <div>
+    <div class="ptitle" style="margin-bottom:12px">Altyapı & araç maliyetleri</div>
+    <div class="tw"><table>
+      <thead><tr><th>Kalem</th><th>Aylık ₺</th><th>Toplam ₺</th><th style="width:44px"></th></tr></thead>
+      <tbody>${data.infra.map(i => `<tr>
+        <td>${esc(i.name)}</td>
+        <td style="font-family:var(--mono)">${Number(i.monthly).toLocaleString('tr-TR')}</td>
+        <td style="font-family:var(--mono);font-weight:600">${Math.round(i.monthly * dur).toLocaleString('tr-TR')}</td>
+        <td><button class="del" style="opacity:1" onclick="rm('infra','${i.id}')" title="Sil">×</button></td>
+      </tr>`).join('')}
+      <tr style="color:var(--muted)"><td>Domain, SSL & lisanslar (tek seferlik)</td><td>—</td><td style="font-family:var(--mono)">${ot.toLocaleString('tr-TR')}</td><td></td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2" style="color:var(--navy)">Altyapı toplamı</td><td style="font-family:var(--mono)">${it.toLocaleString('tr-TR')}</td><td></td></tr></tfoot>
+    </table></div>
+    <div class="bsum">
+      <div class="brow"><span style="color:#94A3B8">Personel</span><span style="font-family:var(--mono)">${pt.toLocaleString('tr-TR')} ₺</span></div>
+      <div class="brow"><span style="color:#94A3B8">Altyapı & araçlar</span><span style="font-family:var(--mono)">${it.toLocaleString('tr-TR')} ₺</span></div>
+      <div class="brow"><span style="color:#64748B">Alt toplam</span><span style="font-family:var(--mono)">${sub.toLocaleString('tr-TR')} ₺</span></div>
+      <div class="brow"><span style="color:#64748B">Risk payı (%15)</span><span style="font-family:var(--mono)">+${con.toLocaleString('tr-TR')} ₺</span></div>
+      <div class="brow btotal"><span>Genel Toplam</span><span style="font-family:var(--mono)">${g.toLocaleString('tr-TR')} ₺</span></div>
+      <div style="font-size:11px;color:#64748B;margin-top:5px">≈ ${Math.round(g / 32).toLocaleString('tr-TR')} USD &nbsp;·&nbsp; Kur: 32 ₺/$</div>
+    </div>
+  </div>`;
+        }
+
+        // ===== RESOURCES =====
+        function rRes() {
+            const dur = data.dur || 6.5;
+            const rdata = [
+                { n: 'Kerem Arslan', d: 'management', e: 100, f: 'Faz 0 → Lansman' },
+                { n: 'Selin Yıldırım', d: 'management', e: 100, f: 'Faz 0 → Lansman' },
+                { n: 'Dilan Aktaş', d: 'design', e: 80, f: 'Faz 1 → Sprint 2' },
+                { n: 'Mert Kaya', d: 'frontend', e: 100, f: 'Sprint 1 → QA' },
+                { n: 'Ayşe Demirci', d: 'frontend', e: 100, f: 'Sprint 2 → QA' },
+                { n: 'Burak Çelik', d: 'frontend', e: 100, f: 'Sprint 2 → Sprint 5' },
+                { n: 'Tarık Öztürk', d: 'backend', e: 100, f: 'Sprint 1 → QA' },
+                { n: 'Zeynep Şahin', d: 'backend', e: 100, f: 'Sprint 2 → Sprint 5' },
+                { n: 'Emre Güneş', d: 'backend', e: 100, f: 'Sprint 3 → Sprint 5' },
+                { n: 'Hande Koç', d: 'backend', e: 100, f: 'Sprint 4 → Sprint 5' },
+                { n: 'Furkan Aydın', d: 'ai', e: 100, f: 'Sprint 2 → Sprint 5' },
+                { n: 'Naz Yılmaz', d: 'ai', e: 100, f: 'Sprint 2 → Sprint 5' },
+                { n: 'Serkan Doğan', d: 'devops', e: 100, f: 'Sprint 1 → Lansman' },
+                { n: 'Pınar Erdoğan', d: 'qa', e: 80, f: 'Faz 1, Sprint 3 → Beta' },
+                { n: 'Caner Polat', d: 'qa', e: 80, f: 'Sprint 3 → Lansman' },
+            ];
+            document.getElementById('resources-box').innerHTML = `
+  <div class="techgrid">
+    ${[{ c: 'Frontend', i: 'Next.js 14, React 18, TypeScript, Tailwind CSS, Zustand' }, { c: 'Backend', i: 'Node.js, NestJS, PostgreSQL, Redis, BullMQ, GraphQL' }, { c: 'AI/ML', i: 'Python, LangChain, OpenAI GPT-4, HuggingFace, Pinecone' }, { c: 'DevOps', i: 'AWS ECS/EKS, GitHub Actions, Docker, Terraform, Helm' }, { c: 'İzleme', i: 'Datadog APM, ELK Stack, Sentry, PagerDuty' }, { c: 'Veri', i: 'PostgreSQL, MongoDB, Pinecone (Vector DB), AWS S3' }].map(s => `
+    <div class="techcard"><div class="techcat">${s.c}</div><div class="techitems">${s.i}</div></div>`).join('')}
+  </div>
+  <div class="ptitle" style="margin-bottom:12px">Efor dağılımı</div>
+  <div class="tw"><table>
+    <thead><tr><th>Ekip üyesi</th><th>Departman</th><th>Aylık maaş</th><th>Efor</th><th>Aktif fazlar</th></tr></thead>
+    <tbody>${rdata.map(r => {
+                const dep = D[r.d] || D.management;
+                const mem = data.team.find(m => m.name === r.n);
+                const sal = mem ? Number(mem.salary).toLocaleString('tr-TR') + ' ₺' : '—';
+                return `<tr>
+        <td style="font-weight:600">${r.n}</td>
+        <td><span class="badge" style="background:${dep.bg};color:${dep.tc}">${dep.l}</span></td>
+        <td style="font-family:var(--mono);font-size:12px">${sal}</td>
+        <td><div class="fx" style="gap:7px">
+          <div style="width:80px;height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden">
+            <div style="width:${r.e}%;height:100%;background:#4F46E5;border-radius:3px"></div>
+          </div>
+          <span style="font-size:11px;color:var(--muted)">%${r.e}</span>
+        </div></td>
+        <td style="color:var(--muted);font-size:12px">${r.f}</td>
+      </tr>`;
+            }).join('')}
+    </tbody>
+  </table></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">
+    <div class="tw" style="padding:16px">
+      <div class="ptitle" style="font-size:14px;margin-bottom:12px">Scrum yapısı</div>
+      ${[['Sprint uzunluğu', '2 hafta'], ['Sprint sayısı', '5 geliştirme sprinti'], ['Velocity hedefi', '~45 story point/sprint'], ['Seremoniler', 'Planning, Daily, Review, Retro'], ['Definition of Done', 'Code review + QA onayı + deploy'], ['Araçlar', 'Jira, Confluence, Slack, Figma, Linear']].map(([k, v]) => `
+      <div class="brow" style="border-bottom:1px solid var(--border);padding:6px 0"><span style="color:var(--muted);font-size:12px">${k}</span><span style="font-size:12px;font-weight:500">${v}</span></div>`).join('')}
+    </div>
+    <div class="tw" style="padding:16px">
+      <div class="ptitle" style="font-size:14px;margin-bottom:12px">Özet istatistikler</div>
+      ${[['Toplam ekip üyesi', data.team.length + ' kişi, 7 rol grubu'], ['Proje süresi', '26 hafta (' + dur + ' ay)'], ['Toplam görev', data.tasks.length + ' sprint görevi'], ['Haftalık toplam saat', (data.team.length * 40).toLocaleString('tr-TR') + ' sa/hafta'], ['Toplam adam/ay', (data.team.length * dur).toFixed(0) + ' adam/ay'], ['Lansman hedefi', 'Beta: Hafta 25–26']].map(([k, v]) => `
+      <div class="brow" style="border-bottom:1px solid var(--border);padding:6px 0"><span style="color:var(--muted);font-size:12px">${k}</span><span style="font-size:12px;font-weight:500">${v}</span></div>`).join('')}
+    </div>
+  </div>`;
+        }
+
+        // ===== REMOVE =====
+        function rm(type, id) {
+            if (!confirm('Bu kaydı silmek istediğinden emin misin?')) return;
+            if (type === 'team') data.team = data.team.filter(x => x.id !== id);
+            if (type === 'tasks') data.tasks = data.tasks.filter(x => x.id !== id);
+            if (type === 'phases') data.phases = data.phases.filter(x => x.id !== id);
+            if (type === 'infra') data.infra = data.infra.filter(x => x.id !== id);
+            save(); renderAll(); toast('Kayıt silindi');
+        }
+
+        // ===== MODAL =====
+        function openModal(type) {
+            mtype = type;
+            const dOpts = Object.entries(D).map(([k, v]) => `<option value="${k}">${v.l}</option>`).join('');
+            const aOpts = data.team.map(m => `<option value="${esc(m.name)}">${esc(m.name)} (${D[m.dept]?.l || ''})</option>`).join('');
+            const cOpts = PC.map((c, i) => `<option value="${i}" style="background:${c.bg};color:${c.tc}">Renk ${i + 1}</option>`).join('');
+            const forms = {
+                team: {
+                    title: '+ Yeni Ekip Üyesi Ekle', html: `
+      <div class="mrow">
+        <div class="fg"><label>Ad Soyad *</label><input id="f-name" placeholder="Ahmet Yılmaz" autocomplete="off"/></div>
+        <div class="fg"><label>Rol / Unvan *</label><input id="f-role" placeholder="Senior Developer" /></div>
+      </div>
+      <div class="mrow">
+        <div class="fg"><label>Departman *</label><select id="f-dept">${dOpts}</select></div>
+        <div class="fg"><label>Aylık Maaş (₺)</label><input id="f-salary" type="number" placeholder="75000" min="0"/></div>
+      </div>`},
+                task: {
+                    title: '+ Yeni Görev Ekle', html: `
+      <div class="mrow">
+        <div class="fg"><label>Sorumlu *</label><select id="f-asgn">${aOpts || '<option>Önce ekip üyesi ekleyin</option>'}</select></div>
+        <div class="fg"><label>Departman *</label><select id="f-dept">${dOpts}</select></div>
+      </div>
+      <div class="fg"><label>Görev Açıklaması *</label><textarea id="f-desc" placeholder="Görevin detayını açıklayın..."></textarea></div>
+      <div class="fg"><label>Sprint / Faz Etiketi</label><input id="f-sprint" placeholder="S1, S2, S3, F1, QA, Beta..." /></div>`},
+                phase: {
+                    title: '+ Yeni Faz / Sprint Ekle', html: `
+      <div class="fg"><label>Faz / Sprint Adı *</label><input id="f-name" placeholder="Sprint 6 — Yeni özellik seti" /></div>
+      <div class="mrow">
+        <div class="fg"><label>Başlangıç Haftası *</label><input id="f-start" type="number" min="1" max="52" placeholder="1"/></div>
+        <div class="fg"><label>Bitiş Haftası *</label><input id="f-end" type="number" min="1" max="52" placeholder="4"/></div>
+      </div>
+      <div class="fg"><label>Renk</label><select id="f-ci">${cOpts}</select></div>`
+                },
+                infra: {
+                    title: '+ Altyapı / Araç Kalemi Ekle', html: `
+      <div class="fg"><label>Kalem Adı *</label><input id="f-name" placeholder="Yeni servis veya araç adı" /></div>
+      <div class="fg"><label>Aylık Maliyet (₺) *</label><input id="f-monthly" type="number" min="0" placeholder="5000"/></div>`},
+            };
+            const f = forms[type];
+            document.getElementById('modal-title').textContent = f.title;
+            document.getElementById('modal-body').innerHTML = f.html;
+            document.getElementById('overlay').classList.add('open');
+            setTimeout(() => { const fi = document.querySelector('.modal input,modal select'); if (fi) fi.focus(); }, 50);
+        }
+        function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+        function oclick(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        function gv(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+        function submitModal() {
+            if (mtype === 'team') {
+                const name = gv('f-name'), role = gv('f-role'), dept = gv('f-dept'), salary = parseInt(gv('f-salary')) || 0;
+                if (!name || !role) { toast('Ad ve rol alanları zorunludur!', true); return; }
+                data.team.push({ id: nid(), name, role, dept, salary });
+            } else if (mtype === 'task') {
+                const assignee = gv('f-asgn'), dept = gv('f-dept'), desc = gv('f-desc'), sprint = gv('f-sprint') || '—';
+                if (!desc) { toast('Görev açıklaması zorunludur!', true); return; }
+                data.tasks.push({ id: nid(), assignee, dept, desc, sprint });
+            } else if (mtype === 'phase') {
+                const name = gv('f-name');
+                const start = parseInt(gv('f-start')) || 1;
+                const end = parseInt(gv('f-end')) || 2;
+                const ci = parseInt(gv('f-ci')) || 0;
+                if (!name) { toast('Faz adı zorunludur!', true); return; }
+                if (start >= end) { toast('Bitiş haftası başlangıçtan büyük olmalıdır!', true); return; }
+                data.phases.push({ id: nid(), name, start, end, ci });
+            } else if (mtype === 'infra') {
+                const name = gv('f-name'), monthly = parseInt(gv('f-monthly')) || 0;
+                if (!name) { toast('Kalem adı zorunludur!', true); return; }
+                data.infra.push({ id: nid(), name, monthly });
+            }
+            save(); renderAll(); closeModal(); toast('Başarıyla eklendi ✓');
+        }
+
+        // ===== TOAST =====
+        function toast(msg, err = false) {
+            const w = document.getElementById('toasts');
+            const el = document.createElement('div');
+            el.className = 'toast';
+            el.style.borderLeftColor = err ? '#EF4444' : '#4F46E5';
+            el.textContent = msg;
+            w.appendChild(el);
+            setTimeout(() => { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 3000);
+        }
+
+        // ===== INIT =====
+        renderAll();
+    </script>
+</body>
+
+</html>
